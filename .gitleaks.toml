@@ -1,0 +1,7 @@
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Reviewed translation identifiers, not API credentials"
+regexTarget = "secret"
+regexes = ['''^(?:01\.48\-raised|01\.69\-raised|01\.choose\-an\-amount|01\.clinic\-estimate|01\.estimated\-on\-2026\-11\-04|01\.give\-to\-xiaobai|01\.hospital\-stay\-3\-days|01\.of\-usd\-184\-20\-clinic\-estimate|01\.other\-amount|01\.paid\-directly\-to\-the\-animal\-hospital|01\.pre\-op\-tests\-blood\-x\-ray|01\.usd\-58\-00\-raised|01\.you\-may\-donate\-anonymously|02\.of\-usd\-184\-20\-clinic\-estimate|04\.m\-7f8a6ba9|04\.organizer\-verified|04\.plus\-4\-anonymous\-donors|04\.usd\-126\-50\-raised|f2bo\.signin\.heading)$''']

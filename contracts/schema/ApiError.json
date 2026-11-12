@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ApiError",
+  "type": "object",
+  "required": [
+    "code",
+    "message"
+  ],
+  "properties": {
+    "code": {
+      "$ref": "#/definitions/ErrorCode"
+    },
+    "message": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "ErrorCode": {
+      "type": "string",
+      "enum": [
+        "INVALID_INPUT",
+        "NOT_FOUND",
+        "INVALID_TRANSITION",
+        "NEEDS_INFO",
+        "DUPLICATE_RECEIPT",
+        "OVER_BUDGET",
+        "APPROVAL_INVALID",
+        "PAYEE_NOT_ALLOWED",
+        "FORBIDDEN",
+        "WEBHOOK_UNVERIFIED",
+        "WEBHOOK_MISMATCH",
+        "EVENT_CONFLICT",
+        "MODE_NOT_IMPLEMENTED",
+        "STORAGE_UNAVAILABLE",
+        "ADAPTER_UNAVAILABLE"
+      ]
+    }
+  }
+}

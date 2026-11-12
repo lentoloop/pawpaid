@@ -1,0 +1,132 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Claim",
+  "type": "object",
+  "required": [
+    "amount_cents",
+    "budget_line_id",
+    "claimant_id",
+    "event_id",
+    "fields",
+    "id",
+    "receipt_sha256",
+    "revision",
+    "state"
+  ],
+  "properties": {
+    "amount_cents": {
+      "$ref": "#/definitions/Cents"
+    },
+    "budget_line_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "claimant_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "event_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "fields": {
+      "$ref": "#/definitions/ReceiptFields"
+    },
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "receipt_sha256": {
+      "$ref": "#/definitions/ReceiptHash"
+    },
+    "revision": {
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0.0
+    },
+    "state": {
+      "$ref": "#/definitions/ClaimState"
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "Cents": {
+      "type": "integer",
+      "format": "int64",
+      "minimum": 0.0
+    },
+    "ClaimState": {
+      "type": "string",
+      "enum": [
+        "Draft",
+        "NeedsInfo",
+        "Submitted",
+        "DuplicateBlocked",
+        "OverBudget",
+        "Approved",
+        "PayoutPending",
+        "Paid",
+        "PayoutFailed",
+        "PayoutUnknown"
+      ]
+    },
+    "Currency": {
+      "type": "string",
+      "enum": [
+        "USD"
+      ]
+    },
+    "ReceiptFields": {
+      "type": "object",
+      "required": [
+        "uncertain"
+      ],
+      "properties": {
+        "currency": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Currency"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "date": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date"
+        },
+        "merchant": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "total_cents": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Cents"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "uncertain": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "ReceiptHash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

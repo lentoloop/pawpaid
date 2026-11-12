@@ -1,0 +1,2 @@
+# i18n string id field ("key"), not a credential
+web/src/i18n/strings.ts:generic-api-key:2992

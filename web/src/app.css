@@ -1,0 +1,30 @@
+/* Runtime adapters for the approved F2 markup. The design lives in f2bo/f2.css. */
+.locale-switch { display:flex; padding:4px; background:var(--card); border-radius:999px; box-shadow:0 2px 8px rgba(60,30,20,.06); }
+.locale-switch button { min-width:52px; min-height:40px; padding:0 14px; border:0; border-radius:999px; color:var(--ink-2); background:transparent; font:600 15px var(--sans); cursor:pointer; }
+.locale-switch button[aria-pressed="true"] { background:var(--blush); color:var(--rose-deep); }
+.locale-switch > span { display:none; }
+.locale-switch button:focus-visible { outline:3px solid var(--rose); outline-offset:2px; }
+.kv > div { display:contents; }
+[hidden] { display:none !important; }
+.outcome { min-width:0; }
+[data-api-error]:not(.alert-code), [data-reconciliation] { padding:16px 24px; background:var(--danger-bg); color:var(--danger); border-left:5px solid var(--danger); border-radius:6px 16px 16px 6px; }
+[data-api-error] .chip { margin-left:8px; }
+.gallery-state + .gallery-state { margin-top:32px; }
+@media (max-width:600px) {
+  .compact-chrome .locale-switch { padding:2px; }
+  .compact-chrome .locale-switch button { min-height:32px; }
+}
+.masthead-account .locale-switch { margin-left:auto; }
+.event-current > span { min-width:0; overflow-wrap:anywhere; }
+@media (max-width:600px) {
+  .compact-chrome .masthead-account > .identity { display:contents; }
+  .compact-chrome .locale-switch { order:5; margin:4px 0 0 auto; }
+  .compact-chrome .locale-switch button { min-width:44px; padding:0 10px; font-size:var(--text-sm); }
+}
+@media (max-width:600px) {
+  .compact-chrome .ticket-body > .id { flex:0 0 100%; min-width:0; overflow-wrap:anywhere; white-space:normal; }
+  .compact-chrome .ticket-head .date { flex:0 0 100%; white-space:normal; margin-left:0; }
+}
+@media (max-width:600px) {
+  .compact-chrome .ticket-head h2 { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+}

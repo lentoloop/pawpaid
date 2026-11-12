@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "BudgetLine",
+  "type": "object",
+  "required": [
+    "approved_cents",
+    "category",
+    "event_id",
+    "id",
+    "paid_cents",
+    "reserved_cents"
+  ],
+  "properties": {
+    "approved_cents": {
+      "$ref": "#/definitions/Cents"
+    },
+    "category": {
+      "type": "string"
+    },
+    "event_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "paid_cents": {
+      "$ref": "#/definitions/Cents"
+    },
+    "reserved_cents": {
+      "$ref": "#/definitions/Cents"
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "Cents": {
+      "type": "integer",
+      "format": "int64",
+      "minimum": 0.0
+    }
+  }
+}

@@ -1,0 +1,413 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ClaimReviewResponse",
+  "type": "object",
+  "required": [
+    "claim",
+    "receipt_text"
+  ],
+  "properties": {
+    "claim": {
+      "$ref": "#/definitions/ClaimResponse"
+    },
+    "receipt_text": {
+      "type": "string"
+    },
+    "submission": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/SubmitClaimRequest"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "Approval": {
+      "type": "object",
+      "required": [
+        "amount_cents",
+        "approver_id",
+        "claim_id",
+        "claim_revision",
+        "expires_at",
+        "id",
+        "payee_id",
+        "receipt_sha256"
+      ],
+      "properties": {
+        "amount_cents": {
+          "$ref": "#/definitions/Cents"
+        },
+        "approver_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "claim_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "claim_revision": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        },
+        "expires_at": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "payee_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "receipt_sha256": {
+          "$ref": "#/definitions/ReceiptHash"
+        },
+        "receiver": {
+          "description": "Immutable receiver approved by finance; legacy approvals fail closed before send.",
+          "default": "",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Cents": {
+      "type": "integer",
+      "format": "int64",
+      "minimum": 0.0
+    },
+    "Claim": {
+      "type": "object",
+      "required": [
+        "amount_cents",
+        "budget_line_id",
+        "claimant_id",
+        "event_id",
+        "fields",
+        "id",
+        "receipt_sha256",
+        "revision",
+        "state"
+      ],
+      "properties": {
+        "amount_cents": {
+          "$ref": "#/definitions/Cents"
+        },
+        "budget_line_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "claimant_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "fields": {
+          "$ref": "#/definitions/ReceiptFields"
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "receipt_sha256": {
+          "$ref": "#/definitions/ReceiptHash"
+        },
+        "revision": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        },
+        "state": {
+          "$ref": "#/definitions/ClaimState"
+        }
+      },
+      "additionalProperties": false
+    },
+    "ClaimResponse": {
+      "type": "object",
+      "required": [
+        "claim"
+      ],
+      "properties": {
+        "approval": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Approval"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "claim": {
+          "$ref": "#/definitions/Claim"
+        },
+        "payout": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Payout"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "ClaimState": {
+      "type": "string",
+      "enum": [
+        "Draft",
+        "NeedsInfo",
+        "Submitted",
+        "DuplicateBlocked",
+        "OverBudget",
+        "Approved",
+        "PayoutPending",
+        "Paid",
+        "PayoutFailed",
+        "PayoutUnknown"
+      ]
+    },
+    "Currency": {
+      "type": "string",
+      "enum": [
+        "USD"
+      ]
+    },
+    "Payout": {
+      "type": "object",
+      "required": [
+        "approval_id",
+        "claim_id",
+        "id",
+        "sender_batch_id",
+        "state"
+      ],
+      "properties": {
+        "approval_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "binding": {
+          "default": null,
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ProviderBinding"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "claim_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "item_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "paypal_batch_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "reconciliation": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ReconciliationRecord"
+          }
+        },
+        "sender_batch_id": {
+          "type": "string"
+        },
+        "state": {
+          "$ref": "#/definitions/PayoutState"
+        }
+      },
+      "additionalProperties": false
+    },
+    "PayoutState": {
+      "type": "string",
+      "enum": [
+        "PayoutPending",
+        "Paid",
+        "PayoutFailed",
+        "PayoutUnknown"
+      ]
+    },
+    "ProviderBinding": {
+      "type": "object",
+      "required": [
+        "amount_cents",
+        "currency",
+        "payee_id",
+        "receiver",
+        "recipient_type",
+        "sender_batch_id",
+        "sender_item_id"
+      ],
+      "properties": {
+        "amount_cents": {
+          "$ref": "#/definitions/Cents"
+        },
+        "currency": {
+          "$ref": "#/definitions/Currency"
+        },
+        "payee_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "receiver": {
+          "type": "string"
+        },
+        "recipient_type": {
+          "type": "string"
+        },
+        "sender_batch_id": {
+          "type": "string"
+        },
+        "sender_item_id": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "ReceiptFields": {
+      "type": "object",
+      "required": [
+        "uncertain"
+      ],
+      "properties": {
+        "currency": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Currency"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "date": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date"
+        },
+        "merchant": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "total_cents": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Cents"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "uncertain": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "ReceiptHash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "ReceiptItem": {
+      "type": "object",
+      "required": [
+        "quantity",
+        "unit_cents"
+      ],
+      "properties": {
+        "quantity": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        },
+        "unit_cents": {
+          "$ref": "#/definitions/Cents"
+        }
+      },
+      "additionalProperties": false
+    },
+    "ReconciliationRecord": {
+      "type": "object",
+      "required": [
+        "source",
+        "status"
+      ],
+      "properties": {
+        "item_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "paypal_batch_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        }
+      }
+    },
+    "SubmitClaimRequest": {
+      "type": "object",
+      "required": [
+        "fields",
+        "items"
+      ],
+      "properties": {
+        "fields": {
+          "$ref": "#/definitions/ReceiptFields"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ReceiptItem"
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

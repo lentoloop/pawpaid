@@ -1,0 +1,65 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Approval",
+  "type": "object",
+  "required": [
+    "amount_cents",
+    "approver_id",
+    "claim_id",
+    "claim_revision",
+    "expires_at",
+    "id",
+    "payee_id",
+    "receipt_sha256"
+  ],
+  "properties": {
+    "amount_cents": {
+      "$ref": "#/definitions/Cents"
+    },
+    "approver_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "claim_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "claim_revision": {
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0.0
+    },
+    "expires_at": {
+      "type": "integer",
+      "format": "int64"
+    },
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "payee_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "receipt_sha256": {
+      "$ref": "#/definitions/ReceiptHash"
+    },
+    "receiver": {
+      "description": "Immutable receiver approved by finance; legacy approvals fail closed before send.",
+      "default": "",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "Cents": {
+      "type": "integer",
+      "format": "int64",
+      "minimum": 0.0
+    },
+    "ReceiptHash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

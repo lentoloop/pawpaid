@@ -1,0 +1,100 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SubmitClaimRequest",
+  "type": "object",
+  "required": [
+    "fields",
+    "items"
+  ],
+  "properties": {
+    "fields": {
+      "$ref": "#/definitions/ReceiptFields"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/ReceiptItem"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "Cents": {
+      "type": "integer",
+      "format": "int64",
+      "minimum": 0.0
+    },
+    "Currency": {
+      "type": "string",
+      "enum": [
+        "USD"
+      ]
+    },
+    "ReceiptFields": {
+      "type": "object",
+      "required": [
+        "uncertain"
+      ],
+      "properties": {
+        "currency": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Currency"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "date": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date"
+        },
+        "merchant": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "total_cents": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Cents"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "uncertain": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "ReceiptItem": {
+      "type": "object",
+      "required": [
+        "quantity",
+        "unit_cents"
+      ],
+      "properties": {
+        "quantity": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        },
+        "unit_cents": {
+          "$ref": "#/definitions/Cents"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

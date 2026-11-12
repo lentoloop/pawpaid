@@ -1,0 +1,149 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Payout",
+  "type": "object",
+  "required": [
+    "approval_id",
+    "claim_id",
+    "id",
+    "sender_batch_id",
+    "state"
+  ],
+  "properties": {
+    "approval_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "binding": {
+      "default": null,
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ProviderBinding"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "claim_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "item_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "paypal_batch_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "reconciliation": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/ReconciliationRecord"
+      }
+    },
+    "sender_batch_id": {
+      "type": "string"
+    },
+    "state": {
+      "$ref": "#/definitions/PayoutState"
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "Cents": {
+      "type": "integer",
+      "format": "int64",
+      "minimum": 0.0
+    },
+    "Currency": {
+      "type": "string",
+      "enum": [
+        "USD"
+      ]
+    },
+    "PayoutState": {
+      "type": "string",
+      "enum": [
+        "PayoutPending",
+        "Paid",
+        "PayoutFailed",
+        "PayoutUnknown"
+      ]
+    },
+    "ProviderBinding": {
+      "type": "object",
+      "required": [
+        "amount_cents",
+        "currency",
+        "payee_id",
+        "receiver",
+        "recipient_type",
+        "sender_batch_id",
+        "sender_item_id"
+      ],
+      "properties": {
+        "amount_cents": {
+          "$ref": "#/definitions/Cents"
+        },
+        "currency": {
+          "$ref": "#/definitions/Currency"
+        },
+        "payee_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "receiver": {
+          "type": "string"
+        },
+        "recipient_type": {
+          "type": "string"
+        },
+        "sender_batch_id": {
+          "type": "string"
+        },
+        "sender_item_id": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "ReconciliationRecord": {
+      "type": "object",
+      "required": [
+        "source",
+        "status"
+      ],
+      "properties": {
+        "item_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "paypal_batch_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

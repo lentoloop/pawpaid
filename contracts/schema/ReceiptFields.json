@@ -1,0 +1,63 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ReceiptFields",
+  "type": "object",
+  "required": [
+    "uncertain"
+  ],
+  "properties": {
+    "currency": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/Currency"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "date": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date"
+    },
+    "merchant": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "total_cents": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/Cents"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "uncertain": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "Cents": {
+      "type": "integer",
+      "format": "int64",
+      "minimum": 0.0
+    },
+    "Currency": {
+      "type": "string",
+      "enum": [
+        "USD"
+      ]
+    }
+  }
+}

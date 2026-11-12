@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "PayoutEvent",
+  "type": "object",
+  "required": [
+    "kind",
+    "payout_id",
+    "paypal_event_id",
+    "verified"
+  ],
+  "properties": {
+    "kind": {
+      "$ref": "#/definitions/PayoutEventKind"
+    },
+    "payout_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "paypal_event_id": {
+      "type": "string"
+    },
+    "verified": {
+      "type": "boolean"
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "PayoutEventKind": {
+      "type": "string",
+      "enum": [
+        "Pending",
+        "Succeeded",
+        "Failed",
+        "Refunded",
+        "Reversed",
+        "Unknown"
+      ]
+    }
+  }
+}

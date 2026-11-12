@@ -1,0 +1,72 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "PayPalWebhookRequest",
+  "type": "object",
+  "required": [
+    "amount_cents",
+    "currency",
+    "item_id",
+    "kind",
+    "payee_id",
+    "payout_id",
+    "paypal_batch_id",
+    "paypal_event_id",
+    "sender_batch_id"
+  ],
+  "properties": {
+    "amount_cents": {
+      "$ref": "#/definitions/Cents"
+    },
+    "currency": {
+      "$ref": "#/definitions/Currency"
+    },
+    "item_id": {
+      "type": "string"
+    },
+    "kind": {
+      "$ref": "#/definitions/PayoutEventKind"
+    },
+    "payee_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "payout_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "paypal_batch_id": {
+      "type": "string"
+    },
+    "paypal_event_id": {
+      "type": "string"
+    },
+    "sender_batch_id": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "Cents": {
+      "type": "integer",
+      "format": "int64",
+      "minimum": 0.0
+    },
+    "Currency": {
+      "type": "string",
+      "enum": [
+        "USD"
+      ]
+    },
+    "PayoutEventKind": {
+      "type": "string",
+      "enum": [
+        "Pending",
+        "Succeeded",
+        "Failed",
+        "Refunded",
+        "Reversed",
+        "Unknown"
+      ]
+    }
+  }
+}
